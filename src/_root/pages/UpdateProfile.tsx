@@ -74,7 +74,7 @@ const UpdateProfile = () => {
   };
 
   return (
-    <div className="flex flex-1">
+    <div className="flex flex-1 bg-[#5A04FF]">
       <div className="common-container">
         <div className="flex-start gap-3 justify-start w-full max-w-5xl">
           <img

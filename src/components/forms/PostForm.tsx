@@ -153,7 +153,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
           )}
         />
 
-        <div className="flex gap-4 items-center justify-end">
+        <div className="flex gap-4 items-center justify-end  bg-transparent border border-white/20 px-4 py-2 rounded-full relative">
           <Button
             type="button"
             className="shad-button_dark_4"

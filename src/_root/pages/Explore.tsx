@@ -11,7 +11,10 @@ export type SearchResultProps = {
   searchedPosts: any;
 };
 
-const SearchResults = ({ isSearchFetching, searchedPosts }: SearchResultProps) => {
+const SearchResults = ({
+  isSearchFetching,
+  searchedPosts,
+}: SearchResultProps) => {
   if (isSearchFetching) {
     return <Loader />;
   } else if (searchedPosts && searchedPosts.documents.length > 0) {
@@ -29,7 +32,8 @@ const Explore = () => {
 
   const [searchValue, setSearchValue] = useState("");
   const debouncedSearch = useDebounce(searchValue, 500);
-  const { data: searchedPosts, isFetching: isSearchFetching } = useSearchPosts(debouncedSearch);
+  const { data: searchedPosts, isFetching: isSearchFetching } =
+    useSearchPosts(debouncedSearch);
 
   useEffect(() => {
     if (inView && !searchValue) {
@@ -45,13 +49,25 @@ const Explore = () => {
     );
 
   const shouldShowSearchResults = searchValue !== "";
-  const shouldShowPosts = !shouldShowSearchResults && 
+  const shouldShowPosts =
+    !shouldShowSearchResults &&
     posts.pages.every((item) => item.documents.length === 0);
 
   return (
-    <div className="explore-container">
+    <div className="explore-container bg-[#5A04FF]">
       <div className="explore-inner_container">
-        <h2 className="h3-bold md:h2-bold w-full">Search Posts</h2>
+        <div className="flex gap-2 w-full max-w-5xl">
+          <img
+            src="/assets/icons/2.svg"
+            width={36}
+            height={36}
+            alt="edit"
+            className="invert-white"
+          />
+          <h2 className="h3-bold md:h2-bold text-left w-full flex items-center bg-transparent border border-white/20 px-4 py-2 rounded-full relative">
+            Search Posts
+          </h2>
+        </div>
         <div className="flex gap-1 px-4 w-full rounded-lg bg-dark-4">
           <img
             src="/assets/icons/search.svg"
@@ -73,9 +89,11 @@ const Explore = () => {
       </div>
 
       <div className="flex-between w-full max-w-5xl mt-16 mb-7">
-        <h3 className="body-bold md:h3-bold">Popular Today</h3>
+        <h3 className="body-bold md:h3-bold flex items-center bg-transparent border border-white/20 px-4 py-2 rounded-full relative">
+          Popular Today
+        </h3>
 
-        <div className="flex-center gap-3 bg-dark-3 rounded-xl px-4 py-2 cursor-pointer">
+        {/* <div className="flex-center gap-3 bg-dark-3 rounded-xl px-4 py-2 cursor-pointer">
           <p className="small-medium md:base-medium text-light-2">All</p>
           <img
             src="/assets/icons/filter.svg"
@@ -83,7 +101,7 @@ const Explore = () => {
             height={20}
             alt="filter"
           />
-        </div>
+        </div> */}
       </div>
 
       <div className="flex flex-wrap gap-9 w-full max-w-5xl">

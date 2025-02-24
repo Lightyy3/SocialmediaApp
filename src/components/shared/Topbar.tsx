@@ -15,29 +15,29 @@ const Topbar = () => {
   }, [isSuccess]);
 
   return (
-    <section className="topbar">
-      <div className="flex-between py-4 px-5">
-        <Link to="/" className="flex gap-3 items-center">
-          <img
-            src="/assets/images/logo.svg"
-            alt="logo"
-            width={130}
-            height={325}
-          />
+    <section className="topbar bg-[#5A04FF]">
+      <div className="flex-between px-2 py-1">
+        <Link to="/" className="flex gap-1 items-center">
+          <img src="/assets/icons/11.svg" alt="logo" width={80} height={1} />
         </Link>
 
-        <div className="flex gap-4">
+        <div className="flex gap-2 items-center bg-transparent border border-white px-2 py-1 rounded-full relative">
           <Button
             variant="ghost"
             className="shad-button_ghost"
             onClick={() => signOut()}>
-            <img src="/assets/icons/logout.svg" alt="logout" />
+            <img
+              src="/assets/icons/logout.svg"
+              alt="logout"
+              width={18}
+              height={18}
+            />
           </Button>
-          <Link to={`/profile/${user.id}`} className="flex-center gap-3">
+          <Link to={`/profile/${user.id}`} className="flex-center gap-1">
             <img
               src={user.imageUrl || "/assets/icons/profile-placeholder.svg"}
               alt="profile"
-              className="h-8 w-8 rounded-full"
+              className="h-5 w-5 rounded-full"
             />
           </Link>
         </div>

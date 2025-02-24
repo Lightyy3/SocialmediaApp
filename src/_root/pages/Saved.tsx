@@ -16,7 +16,7 @@ const Saved = () => {
     .reverse();
 
   return (
-    <div className="saved-container">
+    <div className="saved-container bg-[#5A04FF]">
       <div className="flex gap-2 w-full max-w-5xl">
         <img
           src="/assets/icons/save.svg"
@@ -25,7 +25,9 @@ const Saved = () => {
           alt="edit"
           className="invert-white"
         />
-        <h2 className="h3-bold md:h2-bold text-left w-full">Saved Posts</h2>
+        <h2 className="h3-bold md:h2-bold text-left w-full flex items-center bg-transparent border border-white/20 px-4 py-2 rounded-full relative">
+          Saved Posts
+        </h2>
       </div>
 
       {!currentUser ? (

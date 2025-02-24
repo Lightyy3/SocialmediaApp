@@ -6,7 +6,7 @@ import LeftSidebar from "@/components/shared/LeftSidebar";
 
 const RootLayout = () => {
   return (
-    <div className="w-full md:flex">
+    <div className="w-full md:flex-col bg-[#5A04FF]">
       <Topbar />
       <LeftSidebar />
 

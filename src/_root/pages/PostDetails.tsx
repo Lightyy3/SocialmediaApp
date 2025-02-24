@@ -33,7 +33,7 @@ const PostDetails = () => {
   };
 
   return (
-    <div className="post_details-container">
+    <div className="post_details-container bg-[#5A04FF]">
       <div className="hidden md:flex max-w-5xl w-full">
         <Button
           onClick={() => navigate(-1)}
