@@ -6,7 +6,7 @@ import { useGetPostById } from "@/lib/react-query/queries";
 
 const EditPost = () => {
   const { id } = useParams();
-  const { data: post, isLoading } = useGetPostById(id);
+  const { data: post, isLoading } = useGetPostById(id || "");
 
   if (isLoading)
     return (
