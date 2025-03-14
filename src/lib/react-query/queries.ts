@@ -25,6 +25,7 @@ import {
   searchPosts,
   savePost,
   deleteSavedPost,
+  followUser,
 } from "@/lib/appwrite/api";
 import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
 
@@ -241,6 +242,35 @@ export const useUpdateUser = () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_USER_BY_ID, data?.$id],
       });
+    },
+  });
+};
+
+export const useFollowUser = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      user,
+      currentFollowCount,
+    }: {
+      user: IUpdateUser;
+      currentFollowCount: number;
+    }) => followUser(user, currentFollowCount), // Call the followUser function
+
+    // onSuccess: (data) => {
+    //   // Invalidate the current user's query so it fetches the updated follow count
+    //   queryClient.invalidateQueries({
+    //     queryKey: [QUERY_KEYS.FOLLOW_USER, data?.$id], // Replace with appropriate query key for user data
+    //   });
+
+    //   // Optionally invalidate other related queries, like user's followers, etc.
+    //   console.log("Follow action was successful!");
+    // },
+
+    onError: (error) => {
+      // Handle errors appropriately
+      console.error("Error following user:", error);
     },
   });
 };

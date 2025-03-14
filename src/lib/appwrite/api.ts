@@ -470,6 +470,18 @@ export async function getUsers(limit?: number) {
   }
 }
 
+// export async function getUsers2(){
+//   try{
+//     const users = await databases.listDocuments(
+//       appwriteConfig.databaseId,
+//       appwriteConfig.userCollectionId,
+
+//     )
+//   }catch(error){
+//     console.log(error)
+//   }
+// }
+
 // ============================== GET USER BY ID
 export async function getUserById(userId: string) {
   try {
@@ -544,3 +556,90 @@ export async function updateUser(user: IUpdateUser) {
     console.log(error);
   }
 }
+
+export async function followUser(
+  user: IUpdateUser,
+  currentFollowCount: number
+) {
+  const newFollowCount = currentFollowCount; // Increment the follow count
+
+  try {
+    const response = await databases.updateDocument(
+      appwriteConfig.databaseId, // Your Appwrite database ID
+      appwriteConfig.userCollectionId, // Your Appwrite user collection ID
+      user.userId, // The user ID you want to update
+      {
+        followCount: newFollowCount, // Update the follow count
+      }
+    );
+
+    if (!response) throw new Error("Failed to follow user");
+
+    return response; // Return the updated user document
+  } catch (error) {
+    console.error("Error following user:", error);
+    throw error; // Rethrow the error to be handled in the component or calling function
+  }
+}
+
+// Method to follow a user
+// export const followUser = async ({
+//   userId,
+//   targetUserId,
+// }: {
+//   userId: string; // The ID of the current user
+//   targetUserId: string; // The ID of the user to be followed
+// }) => {
+//   try {
+//     // Fetch the current user document
+//     const userDoc = await databases.getDocument(
+//       appwriteConfig.databaseId,
+//       appwriteConfig.userCollectionId,
+//       userId
+//     );
+
+//     // Fetch the target user document
+//     const targetUserDoc = await databases.getDocument(
+//       appwriteConfig.databaseId,
+//       appwriteConfig.userCollectionId,
+//       targetUserId
+//     );
+
+//     // Increment the follow count for the current user
+//     const updatedUser = await databases.updateDocument(
+//       appwriteConfig.databaseId,
+//       appwriteConfig.userCollectionId,
+//       userId,
+//       {
+//         followCount: (userDoc.followCount || 0) + 1, // Increment by 1
+//       }
+//     );
+
+//     // Increment the follower count for the target user
+//     await databases.updateDocument(
+//       appwriteConfig.databaseId,
+//       appwriteConfig.userCollectionId,
+//       targetUserId,
+//       {
+//         followCount: (targetUserDoc.followCount || 0) + 1, // Increment by 1
+//       }
+//     );
+
+//     return updatedUser; // Return the updated user document
+//   } catch (error) {
+//     console.error("Error following user:", error);
+//     throw error; // Rethrow the error so it can be handled in React Query
+//   }
+// };
+
+// export async function followUser(userId: string, userToFollowId: string) {
+//   try {
+//     // Get the user's current followers and following lists
+//     const user = await databases.getDocument(
+//       appwriteConfig.databaseId,
+//       appwriteConfig.userCollectionId,
+//       userId
+//     );
+
+//     const userToFollow = await databases.getDocument(
+//       appwriteConfig.database
