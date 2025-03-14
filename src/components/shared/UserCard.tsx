@@ -12,7 +12,7 @@ const UserCard = ({ user }: UserCardProps) => {
   const [isFollowing, setIsFollowing] = React.useState(false);
 
   // Get current user's ID (assumes you have the current user from context)
-  const currentUserId = "currentUserId"; // Replace with actual logic for getting current user's ID
+  // const currentUserId = "currentUserId"; // Replace with actual logic for getting current user's ID
 
   // Check if the user is already followed (based on localStorage)
   React.useEffect(() => {

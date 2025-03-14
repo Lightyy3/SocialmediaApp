@@ -247,7 +247,7 @@ export const useUpdateUser = () => {
 };
 
 export const useFollowUser = () => {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: ({
