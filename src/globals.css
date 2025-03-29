@@ -237,7 +237,7 @@
 
   /* Topbar */
   .topbar {
-    @apply sticky top-0 z-50 md:hidden  w-full;
+    @apply sticky top-0 z-50 2xl:hidden  w-full;
   }
 
   /* User card */

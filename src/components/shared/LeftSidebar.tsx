@@ -25,7 +25,7 @@ const LeftSidebar = () => {
   };
 
   return (
-    <nav className="hidden md:flex px-6 py-4 flex-row justify-between items-center w-full h-16 bg-[#5A04FF] mt-3">
+    <nav className="hidden 2xl:flex px-6 py-4 flex-row justify-between items-center w-full h-16 bg-[#5A04FF] mt-3">
       {/* Left: Logo */}
       <Link to="/" className="flex items-center  ">
         <img
@@ -43,7 +43,7 @@ const LeftSidebar = () => {
       </Link>
 
       {/* Center: Navigation Links */}
-      <ul className="flex gap-6">
+      <ul className="flex gap-6 justify-center sm:gap-4 md:gap-6 flex-wrap">
         {sidebarLinks.map((link: INavLink) => {
           const isActive = pathname === link.route;
 
@@ -51,17 +51,22 @@ const LeftSidebar = () => {
             <li
               key={link.label}
               className={`group ${
-                isActive ? "bg-primary-500 rounded-full" : ""
+                isActive
+                  ? "bg-primary-500 border border-white/20 rounded-full"
+                  : ""
               }`}>
               <NavLink
                 to={link.route}
-                className="flex  bg-transparent border border-white/20 px-4 py-2 rounded-full relative gap-4 items-center p-2 text-white hover:text-black transition">
+                className={`flex bg-transparent border border-white/20 gap-4 items-center text-white hover:text-black transition text-sm sm:text-base md:text-lg rounded-full relative ${
+                  isActive ? "px-2 py-1 sm:px-4 sm:py-2" : "px-3 py-2"
+                }`}>
                 <img
                   src={link.imgURL}
                   alt={link.label}
                   className={`h-6 w-6 group-hover:invert ${isActive ? "" : ""}`}
                 />
-                {link.label}
+                {/* The label is hidden on small screens, but visible on medium and up */}
+                <span className="hidden sm:inline">{link.label}</span>
               </NavLink>
             </li>
           );

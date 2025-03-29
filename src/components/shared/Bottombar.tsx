@@ -6,7 +6,7 @@ const Bottombar = () => {
   const { pathname } = useLocation();
 
   return (
-    <section className="z-50 flex-between w-full sticky bottom-0 rounded-t-[20px]  px-5 py-4 md:hidden bg-black">
+    <section className="z-50 flex-between w-full sticky bottom-0 rounded-t-[20px]  px-5 py-4 2xl:hidden bg-black">
       {bottombarLinks.map((link) => {
         const isActive = pathname === link.route;
         return (

@@ -15,13 +15,15 @@ const Topbar = () => {
   }, [isSuccess]);
 
   return (
-    <section className="topbar bg-[#5A04FF]">
-      <div className="flex-between px-2 py-1">
+    <section className="topbar bg-[#5A04FF] pb-2">
+      {" "}
+      {/* Reduce padding-bottom here */}
+      <div className="flex-between px-2">
         <Link to="/" className="flex gap-1  items-center">
-          <img src="/assets/icons/11.svg" alt="logo" width={80} height={1} />
+          <img src="/assets/icons/11.svg" alt="logo" width={100} height={1} />
         </Link>
 
-        <div className="flex gap-2 items-center bg-transparent border border-white px-2 py-1 rounded-full relative">
+        <div className="flex gap-2 items-center bg-transparent border border-white px-2 rounded-full relative">
           <Button
             variant="ghost"
             className="shad-button_ghost"
