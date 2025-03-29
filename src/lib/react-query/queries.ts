@@ -26,8 +26,11 @@ import {
   savePost,
   deleteSavedPost,
   followUser,
+  getComments,
+  addComment,
 } from "@/lib/appwrite/api";
 import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
+import { QueryTypesList } from "appwrite";
 
 // ============================================================
 // AUTH QUERIES
@@ -271,6 +274,62 @@ export const useFollowUser = () => {
     onError: (error) => {
       // Handle errors appropriately
       console.error("Error following user:", error);
+    },
+  });
+};
+
+// ============================== Fetch Comments for a Post
+export function useGetComments(postId: string) {
+  return useQuery(
+    ["comments", postId], // Cache key based on postId
+    () => getComments(postId), // Fetch comments for the given postId
+    {
+      enabled: !!postId, // Only run the query if postId is defined
+      retry: 2, // Retry a few times if there's a failure
+      refetchOnWindowFocus: false, // Disable refetching when window focus changes (optional)
+      staleTime: 1000 * 60 * 5, // Cache comments for 5 minutes
+    }
+  );
+}
+
+// ============================== Add a New Comment
+export const useAddComment = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      postId,
+      accountId,
+      username,
+      text,
+      imageUrl,
+    }: {
+      postId: string;
+      accountId: string;
+      username: string;
+      text: string;
+      imageUrl: string;
+    }) => {
+      // Call the addComment function to add the new comment to the post
+      const newComment = await addComment({
+        postId,
+        accountId,
+        username,
+        text,
+        imageUrl,
+      });
+      return newComment;
+    },
+    onSuccess: (newComment) => {
+      // Optionally, if you have queries that rely on the posts, invalidate them too
+      queryClient.invalidateQueries([
+        QUERY_KEYS.GET_POST_BY_ID,
+        newComment.postId,
+      ]); // if you need to refetch the specific post with comments
+    },
+    onError: (error) => {
+      // Handle error if the mutation fails
+      console.error("Error adding comment:", error);
     },
   });
 };

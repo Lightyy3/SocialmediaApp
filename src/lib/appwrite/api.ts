@@ -1,4 +1,4 @@
-import { ID, Query } from "appwrite";
+import { ID, Query, QueryTypesList } from "appwrite";
 
 import { appwriteConfig, account, databases, storage, avatars } from "./config";
 import { IUpdatePost, INewPost, INewUser, IUpdateUser } from "@/types";
@@ -582,64 +582,75 @@ export async function followUser(
   }
 }
 
-// Method to follow a user
-// export const followUser = async ({
-//   userId,
-//   targetUserId,
-// }: {
-//   userId: string; // The ID of the current user
-//   targetUserId: string; // The ID of the user to be followed
-// }) => {
-//   try {
-//     // Fetch the current user document
-//     const userDoc = await databases.getDocument(
-//       appwriteConfig.databaseId,
-//       appwriteConfig.userCollectionId,
-//       userId
-//     );
+// ============================== GET COMMENTS
+export async function getComments(postId: string) {
+  try {
+    // Ensure that postId is provided
+    if (!postId) {
+      throw new Error("Missing required field: postId.");
+    }
 
-//     // Fetch the target user document
-//     const targetUserDoc = await databases.getDocument(
-//       appwriteConfig.databaseId,
-//       appwriteConfig.userCollectionId,
-//       targetUserId
-//     );
+    // Fetch comments from the database for the given postId
+    const comments = await databases.listDocuments(
+      appwriteConfig.databaseId, // Your Appwrite database ID
+      appwriteConfig.commentsCollectionId, // Your comments collection ID
+      [
+        Query.equal("postId", postId), // Filter by postId to fetch the relevant comments
+        Query.orderDesc("createdAt"), // Order comments by creation date (optional)
+      ]
+    );
 
-//     // Increment the follow count for the current user
-//     const updatedUser = await databases.updateDocument(
-//       appwriteConfig.databaseId,
-//       appwriteConfig.userCollectionId,
-//       userId,
-//       {
-//         followCount: (userDoc.followCount || 0) + 1, // Increment by 1
-//       }
-//     );
+    // Return the list of comments with resolved relationships
+    return comments.documents.map((comment) => ({
+      ...comment,
+      username: comment.accountId?.username || "Anonymous", // Appwrite will resolve this if properly set
+      imageUrl:
+        comment.imageUrl?.url || "/assets/icons/profile-placeholder.svg", // Default image if not available
+    }));
+  } catch (error) {
+    console.error("Error fetching comments:", error);
+    throw error;
+  }
+}
 
-//     // Increment the follower count for the target user
-//     await databases.updateDocument(
-//       appwriteConfig.databaseId,
-//       appwriteConfig.userCollectionId,
-//       targetUserId,
-//       {
-//         followCount: (targetUserDoc.followCount || 0) + 1, // Increment by 1
-//       }
-//     );
+// ============================== ADD COMMENT
+export async function addComment({
+  postId,
+  accountId,
+  username,
+  text,
+  imageUrl,
+}: {
+  postId: string;
+  accountId: string;
+  username: string;
+  text: string;
+  imageUrl: string;
+}) {
+  try {
+    // Ensure valid data
+    if (!postId || !accountId || !text) {
+      throw new Error("Missing required fields: postId, accountId, or text.");
+    }
 
-//     return updatedUser; // Return the updated user document
-//   } catch (error) {
-//     console.error("Error following user:", error);
-//     throw error; // Rethrow the error so it can be handled in React Query
-//   }
-// };
+    // Create the comment with postId and accountId as relationships
+    const newComment = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.commentsCollectionId,
+      ID.unique(), // Unique document ID
+      {
+        postId: postId, // Reference to the post this comment belongs to
+        accountId: accountId, // Reference to the user who made the comment
+        text: text, // The comment's content
+        imageUrl: imageUrl, // User's profile image URL
+        createdAt: new Date().toISOString(), // Timestamp
+      }
+    );
 
-// export async function followUser(userId: string, userToFollowId: string) {
-//   try {
-//     // Get the user's current followers and following lists
-//     const user = await databases.getDocument(
-//       appwriteConfig.databaseId,
-//       appwriteConfig.userCollectionId,
-//       userId
-//     );
-
-//     const userToFollow = await databases.getDocument(
-//       appwriteConfig.database
+    // Return the newly created comment
+    return newComment;
+  } catch (error) {
+    console.error("Error adding comment:", error);
+    throw error;
+  }
+}
