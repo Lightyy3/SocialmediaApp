@@ -1,4 +1,4 @@
-import { ID, Query, QueryTypesList } from "appwrite";
+import { ID, Query } from "appwrite";
 
 import { appwriteConfig, account, databases, storage, avatars } from "./config";
 import { IUpdatePost, INewPost, INewUser, IUpdateUser } from "@/types";
@@ -617,7 +617,7 @@ export async function getComments(postId: string) {
 export async function addComment({
   postId,
   accountId,
-  username,
+  // username,
   text,
   imageUrl,
 }: {
