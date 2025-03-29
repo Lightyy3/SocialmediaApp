@@ -59,10 +59,10 @@ const PostCard = ({ post }: PostCardProps) => {
   };
 
   return (
-    <div className="post-card">
+    <div className="post-card p-4 sm:p-3">
       {/* Existing Post Card UI */}
-      <div className="flex-between">
-        <div className="flex items-center gap-3">
+      <div className="flex flex-row  justify-between sm:gap-4">
+        <div className="flex items-center gap-3 sm:gap-4">
           <Link to={`/profile/${post.creator.$id}`}>
             <img
               src={
@@ -70,15 +70,15 @@ const PostCard = ({ post }: PostCardProps) => {
                 "/assets/icons/profile-placeholder.svg"
               }
               alt="creator"
-              className="w-12 lg:h-12 rounded-full"
+              className="w-12 h-12 sm:w-10 sm:h-10 rounded-full"
             />
           </Link>
 
           <div className="flex flex-col">
-            <p className="base-medium lg:body-bold text-light-1">
+            <p className="base-medium lg:body-bold text-light-1 text-sm sm:text-base">
               {post.creator.name}
             </p>
-            <div className="flex-center gap-2 text-light-3">
+            <div className="flex-center gap-2 text-light-3 text-xs sm:text-sm">
               <p className="subtle-semibold lg:small-regular">
                 {multiFormatDateString(post.$createdAt)}
               </p>
@@ -99,12 +99,14 @@ const PostCard = ({ post }: PostCardProps) => {
       </div>
 
       {/* Post Content */}
-      <Link to={`/posts/${post.$id}`}>
+      <Link to={`/posts/${post.$id}`} className="block mt-4">
         <div className="small-medium lg:base-medium py-5">
-          <p>{post.caption}</p>
-          <ul className="flex gap-1 mt-2">
+          <p className="text-sm sm:text-base">{post.caption}</p>
+          <ul className="flex gap-1 mt-2 flex-wrap">
             {post.tags.map((tag: string, index: string) => (
-              <li key={`${tag}${index}`} className="text-light-3 small-regular">
+              <li
+                key={`${tag}${index}`}
+                className="text-light-3 text-xs sm:text-sm">
                 #{tag}
               </li>
             ))}
@@ -114,38 +116,38 @@ const PostCard = ({ post }: PostCardProps) => {
         <img
           src={post.imageUrl || "/assets/icons/profile-placeholder.svg"}
           alt="post image"
-          className="post-card_img"
+          className="post-card_img w-full h-auto mt-4 rounded-lg"
         />
       </Link>
 
       <PostStats post={post} userId={user.id} />
 
       {/* Comment SVG Icon to Toggle Comments */}
-      <div className="comments-toggle mt-4">
+      <div className="comments-toggle mt-4 sm:mt-5">
         <img
           onClick={toggleCommentsVisibility} // Handles click event
           src="/assets/icons/comment.svg"
-          alt="Comment Icon" // Adding alt for accessibility
-          className="cursor-pointer w-5 h-5" // Add a pointer cursor to indicate interactivity
+          alt="Comment Icon"
+          className="cursor-pointer w-5 h-5 sm:w-6 sm:h-6"
         />
       </div>
 
       {/* Comment Input - Always visible */}
-      <div className="comment-input mt-4 flex gap-3">
+      <div className="comment-input mt-4 flex gap-3 sm:gap-4">
         <img
           src={user.imageUrl || "/assets/icons/profile-placeholder.svg"}
           alt="user"
-          className="w-8 h-8 rounded-full"
+          className="w-8 h-8 sm:w-10 sm:h-10 rounded-full"
         />
         <textarea
-          className="w-full p-2 border rounded-lg bg-transparent resize-none"
+          className="w-full p-2 border rounded-lg bg-transparent resize-none text-sm sm:text-base"
           placeholder="Add a comment..."
           value={comment}
           onChange={(e) => setComment(e.target.value)}
         />
         <button
           onClick={handleCommentSubmit}
-          className="p-2 bg-[#5A04FF] text-white rounded-lg hover:bg-[#4803cc] focus:outline-none focus:ring-2 focus:ring-[#5A04FF] transition duration-300 ease-in-out shadow-lg h-full">
+          className="p-2 bg-[#5A04FF] text-white rounded-lg hover:bg-[#4803cc] focus:outline-none focus:ring-2 focus:ring-[#5A04FF] transition duration-300 ease-in-out shadow-lg h-full sm:text-base">
           Post
         </button>
       </div>
@@ -154,7 +156,7 @@ const PostCard = ({ post }: PostCardProps) => {
       {areCommentsVisible && (
         <div className="comments-section mt-5">
           <div className="comments-header">
-            <p className="text-light-1">Comments</p>
+            <p className="text-light-1 text-sm sm:text-base">Comments</p>
           </div>
 
           {/* Display Comments */}
@@ -165,15 +167,20 @@ const PostCard = ({ post }: PostCardProps) => {
               comments.map((comment: any) => (
                 <div key={comment.$id} className="comment-item flex gap-3 mb-4">
                   <img
-                    src={comment.imageUrl}
+                    src={
+                      comment.imageUrl ||
+                      "/assets/icons/profile-placeholder.svg"
+                    }
                     alt="user"
-                    className="w-8 h-8 rounded-full"
+                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-full"
                   />
                   <div>
-                    <p className="font-semibold text-light-1">
+                    <p className="font-semibold text-light-1 text-xs sm:text-sm">
                       @{comment.username}
                     </p>
-                    <p className="text-light-2">{comment.text}</p>
+                    <p className="text-light-2 text-xs sm:text-sm">
+                      {comment.text}
+                    </p>
                     <p className="text-light-3 text-sm">
                       {multiFormatDateString(comment.createdAt)}
                     </p>
