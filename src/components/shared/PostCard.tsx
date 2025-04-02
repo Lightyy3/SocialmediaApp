@@ -140,7 +140,7 @@ const PostCard = ({ post }: PostCardProps) => {
           className="w-8 h-8 sm:w-10 sm:h-10 rounded-full"
         />
         <textarea
-          className="w-full p-2 border rounded-lg bg-transparent resize-none text-sm sm:text-base"
+          className="w-full p-2 border rounded-lg bg-transparent resize-none text-sm sm:text-base focus:ring-4 focus:ring-white"
           placeholder="Add a comment..."
           value={comment}
           onChange={(e) => setComment(e.target.value)}
