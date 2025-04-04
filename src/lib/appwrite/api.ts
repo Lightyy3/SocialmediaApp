@@ -470,18 +470,6 @@ export async function getUsers(limit?: number) {
   }
 }
 
-// export async function getUsers2(){
-//   try{
-//     const users = await databases.listDocuments(
-//       appwriteConfig.databaseId,
-//       appwriteConfig.userCollectionId,
-
-//     )
-//   }catch(error){
-//     console.log(error)
-//   }
-// }
-
 // ============================== GET USER BY ID
 export async function getUserById(userId: string) {
   try {

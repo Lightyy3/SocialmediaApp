@@ -25,12 +25,11 @@ import {
   searchPosts,
   savePost,
   deleteSavedPost,
-  followUser,
-  getComments,
   addComment,
+  getComments,
+  followUser,
 } from "@/lib/appwrite/api";
 import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
-// import { QueryTypesList } from "appwrite";
 
 // ============================================================
 // AUTH QUERIES
